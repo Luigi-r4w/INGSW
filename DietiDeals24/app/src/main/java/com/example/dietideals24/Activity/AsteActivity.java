@@ -10,8 +10,12 @@ import com.example.dietideals24.R;
 
 public class AsteActivity  extends AppCompatActivity {
 
+    private String tipo, email, aste;
+
     public void onBackPressed() {
         Intent intent = new Intent(AsteActivity.this, HomeActivity.class);
+        intent.putExtra("email", email);
+        intent.putExtra("tipo", tipo);
         startActivity(intent);
         finish();
     }
@@ -19,5 +23,9 @@ public class AsteActivity  extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.lista_aste_scene);
+
+        tipo = getIntent().getSerializableExtra("tipo").toString();
+        email = getIntent().getSerializableExtra("email").toString();
+        aste = getIntent().getSerializableExtra("aste").toString();
     }
 }
