@@ -2,7 +2,6 @@ package com.example.dietideals24.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -10,8 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dietideals24.Connection.ApiService;
-import com.example.dietideals24.Connection.NewAsta;
-import com.example.dietideals24.Connection.Service;
+import com.example.dietideals24.Connection.RetrofitClient;
+import com.example.dietideals24.Entities.AstaInglese;
 import com.example.dietideals24.R;
 
 import retrofit2.Call;
@@ -52,30 +51,32 @@ public class NuovaAstaActivity extends AppCompatActivity {
             EditText soglia = findViewById(R.id.editTextRialzo);
 
             findViewById(R.id.buttonConferma).setOnClickListener(c->{
-                /*
-                NewAsta asta = new NewAsta(nome.getText().toString(), descrizione.getText().toString(), foto, categoria.getText().toString(), offertaMinima.getText().toString(), interalloTemp.getText().toString(), soglia.getText().toString(), "", email);
-                service = Service.initialize().create(ApiService.class);
-                service.newAsta(asta).enqueue(new Callback<Boolean>() {
+
+                AstaInglese asta = new AstaInglese();
+                asta.setNome(nome.getText().toString());
+                asta.setCategoria(categoria.getText().toString());
+                asta.setDescrizione(descrizione.getText().toString());
+                asta.setFoto(foto);
+                asta.setUtente(email);
+                asta.setOffertaMinima(Integer.valueOf(offertaMinima.getText().toString()));
+                asta.setIntervalloDiTempo(Integer.valueOf(interalloTemp.getText().toString()));
+                asta.setSogliaDiRialzo(Integer.valueOf(soglia.getText().toString()));
+
+                service = RetrofitClient.getInstance().create(ApiService.class);
+                Call<Boolean> call = service.newAsta(asta);
+                call.enqueue(new Callback<Boolean>() {
                     @Override
                     public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                        Intent intent = new Intent(NuovaAstaActivity.this, HomeActivity.class);
-                        intent.putExtra("email", email);
-                        intent.putExtra("tipo", tipo);
-                        startActivity(intent);
-                        finish();
-                    }
 
+                        onBackPressed();
+
+                    }
                     @Override
                     public void onFailure(Call<Boolean> call, Throwable t) {
-                        Toast.makeText(NuovaAstaActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+
+                        onBackPressed();
                     }
                 });
-*/
-                Intent intent = new Intent(NuovaAstaActivity.this, HomeActivity.class);
-                intent.putExtra("email", email);
-                intent.putExtra("tipo", tipo);
-                startActivity(intent);
-                finish();
             });
 
         });

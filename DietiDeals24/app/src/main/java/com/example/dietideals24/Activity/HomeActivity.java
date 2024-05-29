@@ -2,6 +2,8 @@ package com.example.dietideals24.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +34,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         email = getIntent().getSerializableExtra("email").toString();
         if (tipo.equals("Compratore")){
             findViewById(R.id.button5).setVisibility(View.INVISIBLE);
+
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
         NavigationView navigationView = findViewById(R.id.navView);

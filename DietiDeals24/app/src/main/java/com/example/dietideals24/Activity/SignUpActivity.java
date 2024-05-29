@@ -9,10 +9,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.dietideals24.R;
 import com.example.dietideals24.Connection.ApiService;
-import com.example.dietideals24.Connection.NewUser;
-import com.example.dietideals24.Connection.Service;
+import com.example.dietideals24.Connection.RetrofitClient;
+import com.example.dietideals24.Entities.Compratore;
+import com.example.dietideals24.Entities.Venditore;
+import com.example.dietideals24.R;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,29 +44,59 @@ public class SignUpActivity extends AppCompatActivity {
             if (nome.getText().toString().isEmpty() | email.getText().toString().isEmpty() | pass.getText().toString().isEmpty()){
                 Toast.makeText(SignUpActivity.this, "Ci sono dei campi vuoti", Toast.LENGTH_SHORT).show();
             } else {
-                NewUser user = new NewUser(nome.getText().toString(), email.getText().toString(), pass.getText().toString(), tipo);
-                service = Service.initialize().create(ApiService.class);
-                service.newUser(user).enqueue(new Callback<Boolean>() {
-                    @Override
-                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                        if (response.body().booleanValue()){
-                            Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
+                service = RetrofitClient.getInstance().create(ApiService.class);
+                if (tipo.equals("Compratore")) {
+
+                    Compratore user = new Compratore();
+                    user.setNome(nome.getText().toString());
+                    user.setEmail(email.getText().toString());
+                    user.setPassword(pass.getText().toString());
+
+                    service.newCompratore(user).enqueue(new Callback<Boolean>() {
+                        @Override
+                        public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+
+                                Intent intent = new Intent(SignUpActivity.this, LogInActivity.class);
+                                intent.putExtra("email", email.getText().toString());
+                                intent.putExtra("tipo", tipo);
+                                startActivity(intent);
+                                finish();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Boolean> call, Throwable t) {
+                            Intent intent = new Intent(SignUpActivity.this, LogInActivity.class);
                             intent.putExtra("email", email.getText().toString());
                             intent.putExtra("tipo", tipo);
                             startActivity(intent);
                             finish();
                         }
-                    }
+                    });
+                } else {
 
-                    @Override
-                    public void onFailure(Call<Boolean> call, Throwable t) {
-                        Toast.makeText(SignUpActivity.this, "Failure", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    Venditore user = new Venditore((nome.getText().toString()), email.getText().toString(), pass.getText().toString());
+                    service.newVenditore(user).enqueue(new Callback<Boolean>() {
+                        @Override
+                        public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+
+                                Intent intent = new Intent(SignUpActivity.this, LogInActivity.class);
+                                intent.putExtra("email", email.getText().toString());
+                                intent.putExtra("tipo", tipo);
+                                startActivity(intent);
+                                finish();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Boolean> call, Throwable t) {
+                            Intent intent = new Intent(SignUpActivity.this, LogInActivity.class);
+                            intent.putExtra("email", email.getText().toString());
+                            intent.putExtra("tipo", tipo);
+                            startActivity(intent);
+                            finish();                        }
+                    });
+                }
             }
-
         });
     }
-
 
 }

@@ -9,18 +9,20 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.dietideals24.R;
 import com.example.dietideals24.Connection.ApiService;
-import com.example.dietideals24.Connection.Service;
-import com.example.dietideals24.Connection.UserCheck;
+import com.example.dietideals24.Connection.RetrofitClient;
+
+import com.example.dietideals24.R;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
 public class LogInActivity  extends AppCompatActivity {
 
-    private ApiService service;
+
+    private  ApiService service;
 
     public void onBackPressed() {
         Intent intent = new Intent(LogInActivity.this, MainActivity.class);
@@ -37,39 +39,60 @@ public class LogInActivity  extends AppCompatActivity {
         EditText email = findViewById(R.id.editTextEmail);
         EditText pass = findViewById(R.id.editTextPassword);
         findViewById(R.id.button).setOnClickListener(view -> {
-            /*if (email.getText().toString().isEmpty() | pass.getText().toString().isEmpty()){
+            if (email.getText().toString().isEmpty() | pass.getText().toString().isEmpty()){
                 Toast.makeText(LogInActivity.this, "Ci sono dei campi vuoti", Toast.LENGTH_SHORT).show();
             } else {
-                check(email.getText().toString(), pass.getText().toString(), tipoUtente);
-            }*/
-            Intent intent = new Intent(LogInActivity.this, HomeActivity.class);
-            intent.putExtra("email", email.getText().toString());
-            intent.putExtra("tipo", tipoUtente);
-            startActivity(intent);
-            finish();
+                login(email.getText().toString(), pass.getText().toString(), tipoUtente);
+            }
+
         });
     }
 
-    private void check(String email, String pass, String tipo){
-        UserCheck user = new UserCheck(email, pass, tipo);
-        service = Service.initialize().create(ApiService.class);
-        service.checkUser(user).enqueue(new Callback<Boolean>() {
+    public  void login(String mail, String pass, String tipoUtente) {
+
+        service = RetrofitClient.getInstance().create(ApiService.class);
+        if(tipoUtente.equals("Compratore")){
+            Call<Boolean> call = service.checkCompratore(mail, pass);
+            call.enqueue(new Callback<Boolean>() {
                 @Override
                 public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                    if (response.body().booleanValue()){
+                    if(response.body()){
                         Intent intent = new Intent(LogInActivity.this, HomeActivity.class);
-                        intent.putExtra("email", email);
-                        intent.putExtra("tipo", tipo);
+                        intent.putExtra("email", mail);
+                        intent.putExtra("tipo", tipoUtente);
                         startActivity(intent);
                         finish();
+                    } else{
+                        Toast.makeText(LogInActivity.this, "Utente non trovato", Toast.LENGTH_SHORT).show();
                     }
                 }
-
                 @Override
                 public void onFailure(Call<Boolean> call, Throwable t) {
-                    Toast.makeText(LogInActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LogInActivity.this, "Utente non trovato", Toast.LENGTH_SHORT).show();
                 }
             });
+        } else {
+            service.checkVenditore(mail, pass).enqueue(new Callback<Boolean>() {
+                @Override
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                    if(response.body()){
+                        Intent intent = new Intent(LogInActivity.this, HomeActivity.class);
+                        intent.putExtra("email", mail);
+                        intent.putExtra("tipo", tipoUtente);
+                        startActivity(intent);
+                        finish();
+                    } else{
+                        Toast.makeText(LogInActivity.this, "Utente non trovato", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onFailure(Call<Boolean> call, Throwable t) {
+                    Toast.makeText(LogInActivity.this, "Utente non trovato", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
 
     }
+
 }

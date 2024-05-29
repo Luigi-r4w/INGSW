@@ -1,11 +1,9 @@
-package com.example.dietideals24.Entities;
+package com.backEnd.dto;
 
-import java.io.Serializable;
-
-public class Notifica implements Serializable {
+public class Notifica {
     private String venditore;
     private String compratore;
-    private int asta;
+    private Integer asta;
 
     public String getVenditore() {
         return venditore;
@@ -23,11 +21,16 @@ public class Notifica implements Serializable {
         this.compratore = compratore;
     }
 
-    public int getAsta() {
+    public Integer getAsta() {
         return asta;
     }
 
-    public void setAsta(int asta) {
+    public void setAsta(Integer asta) {
         this.asta = asta;
+    }
+    public Notifica(String venditore, String compratore, Integer asta){
+        this.asta=asta;
+        this.compratore=compratore;
+        this.venditore=venditore;
     }
 }

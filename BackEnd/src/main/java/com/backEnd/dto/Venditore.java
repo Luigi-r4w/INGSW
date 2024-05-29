@@ -1,24 +1,12 @@
-package com.example.dietideals24.Entities;
+package com.backEnd.dto;
 
-import java.io.Serializable;
-
-public class Venditore implements Serializable {
-
+public class Venditore {
     private String nome;
     private String email;
     private String password;
     private String link;
     private String posizione;
     private String descrizione;
-
-    public Venditore(){}
-
-    public Venditore(String nome, String email, String pass){
-        this.nome=nome;
-        this.email=email;
-        this.password=pass;
-
-    }
 
     public String getNome() {
         return nome;
@@ -65,6 +53,15 @@ public class Venditore implements Serializable {
     }
 
     public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
+
+    public Venditore(String nome, String email, String password,String link,String posizione, String descrizione){
+        this.nome = nome;
+        this.email = email;
+        this.password = password;
+        this.link = link;
+        this.posizione = posizione;
         this.descrizione = descrizione;
     }
 }
