@@ -12,23 +12,31 @@ public class OffertaDAO {
         
         try{
             Connection con = null;
-            String sql = "Insert into offerta VALUES(?,?,?,?)";
+            String sql = "Insert into offerta (utente, asta, offerta) VALUES(?,?,?)";
             con = dbConnection.getConnection();
             PreparedStatement p1 = con.prepareStatement(sql);
-            p1.setInt(1, offerta.getId());
-            p1.setString(2, offerta.getUtente());
-            p1.setInt(3, offerta.getAsta());
-            p1.setInt(4,offerta.getOfferta());
-            p1.executeQuery();
+            p1.setString(1, offerta.getUtente());
+            p1.setInt(2, offerta.getAsta());
+            p1.setInt(3,offerta.getOfferta());
+            p1.executeUpdate();
+            sql = "Select id from offerta where utente = ? and asta = ? and offerta = ?";
+            PreparedStatement p2 = con.prepareStatement(sql);
+            p2.setString(1, offerta.getUtente());
+            p2.setInt(2, offerta.getAsta());
+            p2.setInt(3,offerta.getOfferta());
+            ResultSet rs = p2.executeQuery();
+            rs.next();
             sql = "Update astainglese set ultimaofferta=? where id=? ";
-            p1 = con.prepareStatement(sql);
-            p1.setInt(2, offerta.getId());
-            p1.setInt(1, offerta.getAsta());
-            p1.executeQuery();
+            PreparedStatement p3 = con.prepareStatement(sql);
+            p3.setInt(2, offerta.getAsta());
+            p3.setInt(1, rs.getInt(1));
+            p3.executeUpdate();
             con.close();
             return true;
         }
         catch(Exception e){
+
+            System.out.println(e);
             return false;
         }
     }
@@ -46,4 +54,19 @@ public class OffertaDAO {
         rs.close();
         return offerta;
     }
+
+    public Integer ValoreOfferta(Integer id)throws  Exception{
+        Connection con = null;
+        String sql = "select offerta from offerta where id = ?";
+        con = dbConnection.getConnection();
+        PreparedStatement p1 = con.prepareStatement(sql);
+        p1.setInt(1, id);
+        ResultSet rs = p1.executeQuery();
+        rs.next();
+        Integer res = rs.getInt(1);
+        con.close();
+        rs.close();
+        return res;
+    }
+
 }

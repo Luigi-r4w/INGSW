@@ -105,4 +105,11 @@ public class AstaInglese {
         this.ultimaOfferta=ultimaOfferta;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

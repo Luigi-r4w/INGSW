@@ -2,6 +2,7 @@ package com.example.dietideals24.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -44,9 +45,20 @@ public class AsteActivity  extends AppCompatActivity {
         tipo = getIntent().getSerializableExtra("tipo").toString();
         email = getIntent().getSerializableExtra("email").toString();
         aste = getIntent().getSerializableExtra("aste").toString();
-        categoria = getIntent().getSerializableExtra("categoria").toString();
         parola = getIntent().getSerializableExtra("parola").toString();
+        categoria = getIntent().getSerializableExtra("categoria").toString();
         service = RetrofitClient.getInstance().create(ApiService.class);
+
+        findViewById(R.id.button3).setOnClickListener(view -> {
+
+            Intent intent = new Intent(AsteActivity.this, RicercaActivity.class);
+            intent.putExtra("email", email);
+            intent.putExtra("tipo", tipo);
+            startActivity(intent);
+            finish();
+
+
+        });
 
         if(aste.equals("tutte")){
 
@@ -61,7 +73,7 @@ public class AsteActivity  extends AppCompatActivity {
                         RecyclerView recView = findViewById(R.id.RView);
 
                         ListaAdapter adapter = new ListaAdapter(getBaseContext());
-                        adapter.setLista(response.body());
+                        adapter.setLista(response.body(), tipo, email);
 
                         recView.setAdapter(adapter);
                         recView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
@@ -90,7 +102,7 @@ public class AsteActivity  extends AppCompatActivity {
                         RecyclerView recView = findViewById(R.id.RView);
 
                         ListaAdapter adapter = new ListaAdapter(getBaseContext());
-                        adapter.setLista(response.body());
+                        adapter.setLista(response.body(), tipo, email);
 
                         recView.setAdapter(adapter);
                         recView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
@@ -109,6 +121,7 @@ public class AsteActivity  extends AppCompatActivity {
         } else {
 
             service.listaAsteRA(categoria, parola).enqueue(new Callback<ArrayList<AstaInglese>>() {
+
                 @Override
                 public void onResponse(Call<ArrayList<AstaInglese>> call, Response<ArrayList<AstaInglese>> response) {
 
@@ -119,7 +132,7 @@ public class AsteActivity  extends AppCompatActivity {
                         RecyclerView recView = findViewById(R.id.RView);
 
                         ListaAdapter adapter = new ListaAdapter(getBaseContext());
-                        adapter.setLista(response.body());
+                        adapter.setLista(response.body(), tipo, email);
 
                         recView.setAdapter(adapter);
                         recView.setLayoutManager(new LinearLayoutManager(getBaseContext()));

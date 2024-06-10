@@ -3,6 +3,7 @@ package com.example.dietideals24.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.dietideals24.Activity.InfoAstaActivity;
 import com.example.dietideals24.Entities.Notifica;
 import com.example.dietideals24.R;
 
@@ -22,11 +24,16 @@ import java.util.ArrayList;
 public class NotificaAdapter extends RecyclerView.Adapter<NotificaAdapter.ViewHolder>{
 
     private final Context context;
+
+    private String email;
+    private String tipo;
     private ArrayList<Notifica> notifiche = new ArrayList<>();
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setNotifiche(ArrayList<Notifica> notifiche) {
+    public void setNotifiche(ArrayList<Notifica> notifiche, String email, String tipo) {
         this.notifiche = notifiche;
+        this.email=email;
+        this.tipo=tipo;
         notifyDataSetChanged();
     }
 
@@ -49,6 +56,19 @@ public class NotificaAdapter extends RecyclerView.Adapter<NotificaAdapter.ViewHo
         holder.astaTxt.setText("Asta: "+notifiche.get(position).getAsta());
 
         holder.immagineView.setImageResource(R.drawable.notifiche);
+
+        holder.parent.setOnClickListener(v -> {
+
+                Intent intent = new Intent(context, InfoAstaActivity.class);
+                intent.putExtra("id", String.valueOf(notifiche.get(position).getAsta()) );
+                intent.putExtra("email", email);
+                intent.putExtra("tipo", tipo);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+
+        });
+
+
 
     }
 

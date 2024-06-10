@@ -2,6 +2,7 @@ package com.example.dietideals24.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,14 +29,24 @@ public class ProfiloActivity extends AppCompatActivity {
 
     private ApiService service;
     private String tipo;
-    private String email;
+    private String email, utente, info , id;
 
     public void onBackPressed() {
-        Intent intent = new Intent(ProfiloActivity.this, HomeActivity.class);
-        intent.putExtra("email", email);
-        intent.putExtra("tipo", tipo);
-        startActivity(intent);
-        finish();
+
+        if (info.equals("asta")){
+            Intent intent = new Intent(ProfiloActivity.this, InfoAstaActivity.class);
+            intent.putExtra("email", email);
+            intent.putExtra("tipo", tipo);
+            intent.putExtra("id", id);
+            startActivity(intent);
+            finish();
+        } else {
+            Intent intent = new Intent(ProfiloActivity.this, HomeActivity.class);
+            intent.putExtra("email", email);
+            intent.putExtra("tipo", tipo);
+            startActivity(intent);
+            finish();
+        }
     }
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +54,8 @@ public class ProfiloActivity extends AppCompatActivity {
 
         tipo = getIntent().getSerializableExtra("tipo").toString();
         email = getIntent().getSerializableExtra("email").toString();
+        utente = getIntent().getSerializableExtra("utente").toString();
+        info = getIntent().getSerializableExtra("from").toString();
         service = RetrofitClient.getInstance().create(ApiService.class);
 
         EditText nome = findViewById(R.id.editTextNome);
@@ -54,7 +67,7 @@ public class ProfiloActivity extends AppCompatActivity {
 
         if (tipo.equals("Compratore")){
 
-            service.getCompratore(email).enqueue(new Callback<Compratore>() {
+            service.getCompratore(utente).enqueue(new Callback<Compratore>() {
                 @Override
                 public void onResponse(Call<Compratore> call, Response<Compratore> response) {
 
@@ -76,7 +89,7 @@ public class ProfiloActivity extends AppCompatActivity {
 
         } else {
 
-            service.getVenditore(email).enqueue(new Callback<Venditore>() {
+            service.getVenditore(utente).enqueue(new Callback<Venditore>() {
                 @Override
                 public void onResponse(Call<Venditore> call, Response<Venditore> response) {
 
@@ -95,6 +108,15 @@ public class ProfiloActivity extends AppCompatActivity {
 
                 }
             });
+
+        }
+
+        if(info.equals("asta")){
+            findViewById(R.id.buttonModifica).setVisibility(View.INVISIBLE);
+            findViewById(R.id.editTextBio).setFocusable(false);
+            findViewById(R.id.editTextPosizione).setFocusable(false);
+            findViewById(R.id.editTextlink).setFocusable(false);
+            id = getIntent().getSerializableExtra("id").toString();
 
         }
 

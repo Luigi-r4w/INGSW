@@ -61,7 +61,7 @@ public class NotificheActivity extends AppCompatActivity {
                         RecyclerView recView = findViewById(R.id.RecyclerView);
 
                         NotificaAdapter adapter = new NotificaAdapter(getBaseContext());
-                        adapter.setNotifiche(response.body());
+                        adapter.setNotifiche(response.body(),email,tipo);
 
                         recView.setAdapter(adapter);
                         recView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
@@ -90,7 +90,7 @@ public class NotificheActivity extends AppCompatActivity {
                         RecyclerView esibizioniRecView = findViewById(R.id.RecyclerView);
 
                         NotificaAdapter adapter = new NotificaAdapter(getBaseContext());
-                        adapter.setNotifiche(response.body());
+                        adapter.setNotifiche(response.body(),email,tipo);
 
                         esibizioniRecView.setAdapter(adapter);
                         esibizioniRecView.setLayoutManager(new LinearLayoutManager(getBaseContext()));

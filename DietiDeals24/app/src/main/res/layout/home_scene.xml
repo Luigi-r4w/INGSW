@@ -42,10 +42,10 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/AsteButton"
+            android:id="@+id/leMieAsteButton"
             android:layout_width="wrap_content"
             android:layout_height="135dp"
-            android:layout_below="@+id/leMieAsteButton"
+            android:layout_below="@+id/AsteButton"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="51dp"
@@ -54,14 +54,14 @@
             android:background="@drawable/asta_button"
             android:lineSpacingMultiplier="1.5"
             android:padding="20dp"
-            android:text="Tutte le Aste\nAste attive: 8"
+            android:text="Le mie Aste"
             android:textAlignment="textStart"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="24dp" />
 
         <Button
-            android:id="@+id/leMieAsteButton"
+            android:id="@+id/AsteButton"
             android:layout_width="wrap_content"
             android:layout_height="135dp"
             android:layout_alignParentStart="true"
@@ -73,7 +73,7 @@
             android:background="@drawable/asta_button"
             android:lineSpacingMultiplier="1.5"
             android:padding="20dp"
-            android:text="Le mie Aste\nAste attive: 3"
+            android:text="Tutte le Aste"
             android:textAlignment="textStart"
             android:textAllCaps="false"
             android:textColor="@color/white"

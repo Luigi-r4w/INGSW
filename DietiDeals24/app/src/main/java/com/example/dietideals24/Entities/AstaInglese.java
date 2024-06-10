@@ -3,6 +3,8 @@ package com.example.dietideals24.Entities;
 import java.io.Serializable;
 
 public class AstaInglese implements Serializable {
+
+    private Integer id;
     private String nome;
     private String descrizione;
     private String foto;
@@ -83,5 +85,13 @@ public class AstaInglese implements Serializable {
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

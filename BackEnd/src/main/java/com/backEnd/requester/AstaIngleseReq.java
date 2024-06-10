@@ -27,7 +27,7 @@ public class AstaIngleseReq {
         return astaIngleseDAO.listaAsteUtente(email);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/info/{id}")
     public AstaInglese aste(@PathVariable("id") Integer id) throws Exception {
         return astaIngleseDAO.MostraAsta(id);
     }

@@ -34,7 +34,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         email = getIntent().getSerializableExtra("email").toString();
         if (tipo.equals("Compratore")){
             findViewById(R.id.button5).setVisibility(View.INVISIBLE);
-
+            findViewById(R.id.leMieAsteButton).setVisibility(View.INVISIBLE);
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
         NavigationView navigationView = findViewById(R.id.navView);
@@ -55,6 +55,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             intent.putExtra("email", email);
             intent.putExtra("tipo", tipo);
             intent.putExtra("aste", "tutte");
+            intent.putExtra("parola", "null");
+            intent.putExtra("categoria", "null");
             startActivity(intent);
             finish();
         });
@@ -64,6 +66,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             intent.putExtra("email", email);
             intent.putExtra("tipo", tipo);
             intent.putExtra("aste", "mie");
+            intent.putExtra("parola", "null");
+            intent.putExtra("categoria", "null");
             startActivity(intent);
             finish();
         });
@@ -84,7 +88,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.menu_profile: {
                 Intent intent = new Intent(HomeActivity.this, ProfiloActivity.class);
                 intent.putExtra("email", email);
+                intent.putExtra("utente", email);
                 intent.putExtra("tipo", tipo);
+                intent.putExtra("from", "home");
                 startActivity(intent);
                 break;
             }

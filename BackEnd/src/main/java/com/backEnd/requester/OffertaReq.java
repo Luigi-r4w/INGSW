@@ -20,4 +20,10 @@ public class OffertaReq {
     public  Offerta info(@PathVariable("id") Integer id) throws Exception{
         return  offertaDAO.MostraOffera(id);
     }
+
+    @GetMapping("/offerta/{id}")
+    public  Integer valoreOfferta(@PathVariable("id") Integer id) throws Exception{
+        return  offertaDAO.ValoreOfferta(id);
+    }
+
 }

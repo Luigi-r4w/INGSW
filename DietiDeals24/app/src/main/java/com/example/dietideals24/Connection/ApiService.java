@@ -3,6 +3,7 @@ package com.example.dietideals24.Connection;
 import com.example.dietideals24.Entities.AstaInglese;
 import com.example.dietideals24.Entities.Compratore;
 import com.example.dietideals24.Entities.Notifica;
+import com.example.dietideals24.Entities.Offerta;
 import com.example.dietideals24.Entities.Venditore;
 
 import java.util.ArrayList;
@@ -53,4 +54,13 @@ public interface ApiService {
 
     @GET("/asta/{categoria}/{parola}")
     Call<ArrayList<AstaInglese>> listaAsteRA(@Path("categoria") String categoria, @Path("parola") String parola);
+
+    @GET("/asta/info/{id}")
+    Call<AstaInglese> infoAsta(@Path("id")String id);
+
+    @POST("/offerta/")
+    Call<Boolean> newOfferta(@Body Offerta offerta);
+
+    @GET("/offerta/offerta/{id}")
+    Call<Boolean> valoreOfferta(@Path("id") Integer id);
 }
