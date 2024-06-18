@@ -65,7 +65,7 @@ public class ProfiloActivity extends AppCompatActivity {
         EditText bio = findViewById(R.id.editTextBio);
         EditText pass = findViewById(R.id.editTextPassword);
 
-        if (tipo.equals("Compratore")){
+        if (tipo.equals("Compratore") && !info.equals("asta")){
 
             service.getCompratore(utente).enqueue(new Callback<Compratore>() {
                 @Override

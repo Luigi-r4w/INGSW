@@ -86,9 +86,7 @@ public class AstaIngleseDAO {
             String sql = "select * from astainglese where nome like ?";
             PreparedStatement p1 = con.prepareStatement(sql);
             p1.setString(1, parola);
-            ResultSet rs = p1.execute
-            Query();
-
+            ResultSet rs = p1.executeQuery();
             while (rs.next()){
                 aste.add(new AstaInglese(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getInt(7),rs.getInt(8),rs.getInt(9),rs.getInt(10)));
             }

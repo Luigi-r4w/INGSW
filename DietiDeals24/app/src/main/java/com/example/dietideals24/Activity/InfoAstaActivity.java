@@ -1,28 +1,27 @@
 package com.example.dietideals24.Activity;
 
 import android.content.Intent;
-import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.dietideals24.Adapter.ListaAdapter;
 import com.example.dietideals24.Connection.ApiService;
 import com.example.dietideals24.Connection.RetrofitClient;
 import com.example.dietideals24.Entities.AstaInglese;
 import com.example.dietideals24.R;
 
-import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
 
 public class InfoAstaActivity extends AppCompatActivity {
 
@@ -57,7 +56,7 @@ public class InfoAstaActivity extends AppCompatActivity {
         EditText sogRial = findViewById(R.id.editTextRialzo);
         EditText intTemp = findViewById(R.id.editTextTempo);
         EditText bio = findViewById(R.id.editTextInfo);
-        //EditText foto = findViewById(R.id.imageView2);
+        ImageView foto = findViewById(R.id.imageView2);
         EditText utente = findViewById(R.id.UserTextInfo);
         String ultimaOfferta;
 
@@ -89,9 +88,7 @@ public class InfoAstaActivity extends AppCompatActivity {
                 intTemp.setText(response.body().getIntervalloDiTempo().toString());
                 bio.setText(response.body().getDescrizione());
                 utente.setText(response.body().getUtente());
-                //foto.setText(response.body().getFoto());
-                
-
+                foto.setImageBitmap(decodeBase64ToBitmap(response.body().getFoto()));
 
             }
 
@@ -115,6 +112,11 @@ public class InfoAstaActivity extends AppCompatActivity {
 
         });
 
+    }
+
+    private Bitmap decodeBase64ToBitmap(String base64String) {
+        byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
 
 }

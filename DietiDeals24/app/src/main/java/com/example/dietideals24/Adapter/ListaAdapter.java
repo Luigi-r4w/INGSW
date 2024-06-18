@@ -5,6 +5,9 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +58,9 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.ViewHolder>{
 
         holder.nome.setText(aste.get(position).getNome());
 
-        //holder.immagineView.setImageResource(Integer.parseInt(aste.get(position).getFoto()));
+        holder.utente.setText(aste.get(position).getUtente());
+
+        holder.immagineView.setImageBitmap(decodeBase64ToBitmap(aste.get(position).getFoto()));
 
         holder.parent.setOnClickListener(v -> {
 
@@ -81,7 +86,7 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.ViewHolder>{
 
         private final ImageView immagineView;
 
-        private final TextView nome;
+        private final TextView nome, utente;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,7 +97,14 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.ViewHolder>{
 
             nome = itemView.findViewById(R.id.nomeTxt);
 
+            utente = itemView.findViewById(R.id.utenteTxt);
+
 
         }
+    }
+
+    private Bitmap decodeBase64ToBitmap(String base64String) {
+        byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
 }
