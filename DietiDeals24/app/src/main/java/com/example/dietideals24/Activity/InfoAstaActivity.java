@@ -21,6 +21,7 @@ import retrofit2.Response;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.widget.Toast;
 
 
 public class InfoAstaActivity extends AppCompatActivity {
@@ -28,9 +29,11 @@ public class InfoAstaActivity extends AppCompatActivity {
     private String tipo;
     private String id;
     private String email;
+    private String offerta, soglia;
+
     private ApiService service;
 
-    private boolean scaduta = false;
+    private Integer scaduta, ultimaOfferta;
 
 
     public void onBackPressed() {
@@ -58,7 +61,6 @@ public class InfoAstaActivity extends AppCompatActivity {
         EditText bio = findViewById(R.id.editTextInfo);
         ImageView foto = findViewById(R.id.imageView2);
         EditText utente = findViewById(R.id.UserTextInfo);
-        String ultimaOfferta;
 
         utente.setOnClickListener(v -> {
 
@@ -73,9 +75,10 @@ public class InfoAstaActivity extends AppCompatActivity {
         });
 
 
-        if(tipo.equals("Venditore") || scaduta){
+        if(tipo.equals("Venditore") ){
             findViewById(R.id.buttonFaiOfferta).setVisibility(View.INVISIBLE);
         }
+
 
         service.infoAsta(id).enqueue(new Callback<AstaInglese>() {
             @Override
@@ -88,8 +91,13 @@ public class InfoAstaActivity extends AppCompatActivity {
                 intTemp.setText(response.body().getIntervalloDiTempo().toString());
                 bio.setText(response.body().getDescrizione());
                 utente.setText(response.body().getUtente());
-                foto.setImageBitmap(decodeBase64ToBitmap(response.body().getFoto()));
+                scaduta= Integer.valueOf(response.body().getScaduta());
+                ultimaOfferta=response.body().getUltimaOfferta();
+                soglia=sogRial.getText().toString();
+                if(!response.body().getFoto().equals("Error"))
+                    foto.setImageBitmap(decodeBase64ToBitmap(response.body().getFoto()));
 
+                check();
             }
 
             @Override
@@ -101,22 +109,55 @@ public class InfoAstaActivity extends AppCompatActivity {
 
         findViewById(R.id.buttonFaiOfferta).setOnClickListener(v -> {
 
-            Intent intent = new Intent(InfoAstaActivity.this, OffertaActivity.class);
-            intent.putExtra("email", email);
-            intent.putExtra("tipo", tipo);
-            intent.putExtra("offertaAtt", offMin.getText().toString());
-            intent.putExtra("soglia", sogRial.getText().toString());
-            intent.putExtra("id",id);
-            startActivity(intent);
-            finish();
+            offerta=offMin.getText().toString();
+
+            if (!(ultimaOfferta==0)) {
+                service.valoreOfferta(ultimaOfferta).enqueue(new Callback<Integer>() {
+                    @Override
+                    public void onResponse(Call<Integer> call, Response<Integer> response) {
+
+                        offerta = response.body().toString();
+                        goToOfferta();
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Integer> call, Throwable t) {
+                        offerta = offMin.getText().toString();
+                        goToOfferta();
+
+                    }
+                });
+            } else {
+                goToOfferta();
+            }
+
+
 
         });
 
     }
 
+    public void goToOfferta(){
+        Intent intent = new Intent(InfoAstaActivity.this, OffertaActivity.class);
+        intent.putExtra("email", email);
+        intent.putExtra("tipo", tipo);
+        intent.putExtra("offertaAtt", offerta);
+        intent.putExtra("soglia", soglia);
+        intent.putExtra("id",id);
+        startActivity(intent);
+        finish();
+    }
+
     private Bitmap decodeBase64ToBitmap(String base64String) {
         byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+    }
+
+    public void check(){
+        if(tipo.equals("Venditore") || scaduta.intValue() == 1){
+            findViewById(R.id.buttonFaiOfferta).setVisibility(View.INVISIBLE);
+        }
     }
 
 }

@@ -28,7 +28,6 @@
         android:autofillHints=""
         android:background="@drawable/frame"
         android:ems="10"
-        android:hint="60"
         android:inputType="text|number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,7 +79,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.483"
         tools:targetApi="o"
-        android:enabled="false"/>
+        android:focusable="false"
+        />
 
     <TextView
         android:id="@+id/textViewOfferta"
@@ -111,6 +111,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.346"
         tools:targetApi="o"
-        android:enabled="false"/>
+        android:focusable="false"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

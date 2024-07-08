@@ -49,9 +49,6 @@ public class OffertaActivity extends AppCompatActivity {
         soglia = getIntent().getSerializableExtra("soglia").toString();
         offertaMin = Integer.valueOf(offertaAtt)+Integer.valueOf(soglia);
 
-        System.out.println(offertaAtt);
-        System.out.println(soglia);
-
         EditText offerta = findViewById(R.id.editTextOfferta);
         EditText rialzo = findViewById(R.id.editTextRialzo);
         EditText valoreOfferta = findViewById(R.id.editTextMiaOfferta);
@@ -62,22 +59,27 @@ public class OffertaActivity extends AppCompatActivity {
 
         findViewById(R.id.buttonOfferta).setOnClickListener(v -> {
 
-            Offerta newOfferta = new Offerta();
-            newOfferta.setOfferta(Integer.valueOf(String.valueOf(valoreOfferta.getText())));
-            newOfferta.setAsta(Integer.valueOf(id));
-            newOfferta.setUtente(email);
-            service.newOfferta(newOfferta).enqueue(new Callback<Boolean>() {
-                @Override
-                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                    onBackPressed();
-                }
+            if((Integer.valueOf(String.valueOf(valoreOfferta.getText())))>=offertaMin) {
 
-                @Override
-                public void onFailure(Call<Boolean> call, Throwable t) {
-                    onBackPressed();
-                }
-            });
+                Offerta newOfferta = new Offerta();
+                newOfferta.setOfferta(Integer.valueOf(String.valueOf(valoreOfferta.getText())));
+                newOfferta.setAsta(Integer.valueOf(id));
+                newOfferta.setUtente(email);
+                service.newOfferta(newOfferta).enqueue(new Callback<Boolean>() {
+                    @Override
+                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                        onBackPressed();
+                    }
 
+                    @Override
+                    public void onFailure(Call<Boolean> call, Throwable t) {
+                        onBackPressed();
+                    }
+                });
+
+            } else {
+                Toast.makeText(OffertaActivity.this, "Offerta troppo bassa", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 }

@@ -11,6 +11,7 @@ public class AstaInglese {
     private Integer intervalloDiTempo;
     private Integer sogliaDiRialzo;
     private Integer ultimaOfferta;
+    private Integer scaduta;
 
     public String getDescrizione() {
         return descrizione;
@@ -84,7 +85,7 @@ public class AstaInglese {
         this.foto = foto;
     }
 
-    public AstaInglese(Integer id, String nome, String descrizione, String foto, String utente, String categoria, Integer offertaMinima, Integer intervalloDiTempo, Integer sogliaDiRialzo, Integer ultimaOfferta){
+    public AstaInglese(Integer id, String nome, String descrizione, String foto, String utente, String categoria, Integer offertaMinima, Integer intervalloDiTempo, Integer sogliaDiRialzo, Integer ultimaOfferta, Integer scaduta){
         this.id=id;
         this.nome=nome;
         this.descrizione=descrizione;
@@ -103,6 +104,7 @@ public class AstaInglese {
             this.sogliaDiRialzo=sogliaDiRialzo;
         }
         this.ultimaOfferta=ultimaOfferta;
+        this.scaduta=scaduta;
     }
 
     public Integer getId() {
@@ -111,5 +113,13 @@ public class AstaInglese {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getScaduta() {
+        return scaduta;
+    }
+
+    public void setScaduta(Integer scaduta) {
+        this.scaduta = scaduta;
     }
 }

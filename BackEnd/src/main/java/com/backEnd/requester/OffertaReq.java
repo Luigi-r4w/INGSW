@@ -26,4 +26,8 @@ public class OffertaReq {
         return  offertaDAO.ValoreOfferta(id);
     }
 
+    @GetMapping("/compratore/{id}")
+    public  String compratoreOfferta(@PathVariable("id") Integer id) throws Exception{
+        return  offertaDAO.compratoreOfferta(id);
+    }
 }

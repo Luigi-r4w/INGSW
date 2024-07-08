@@ -62,5 +62,6 @@ public interface ApiService {
     Call<Boolean> newOfferta(@Body Offerta offerta);
 
     @GET("/offerta/offerta/{id}")
-    Call<Boolean> valoreOfferta(@Path("id") Integer id);
+    Call<Integer> valoreOfferta(@Path("id") Integer id);
+
 }

@@ -3,12 +3,10 @@ package com.example.dietideals24.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,10 +14,17 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dietideals24.Activity.InfoAstaActivity;
+import com.example.dietideals24.Connection.ApiService;
+import com.example.dietideals24.Connection.RetrofitClient;
+import com.example.dietideals24.Entities.AstaInglese;
 import com.example.dietideals24.Entities.Notifica;
 import com.example.dietideals24.R;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NotificaAdapter extends RecyclerView.Adapter<NotificaAdapter.ViewHolder>{
 
@@ -28,6 +33,8 @@ public class NotificaAdapter extends RecyclerView.Adapter<NotificaAdapter.ViewHo
     private String email;
     private String tipo;
     private ArrayList<Notifica> notifiche = new ArrayList<>();
+
+    private ApiService service;
 
     @SuppressLint("NotifyDataSetChanged")
     public void setNotifiche(ArrayList<Notifica> notifiche, String email, String tipo) {
@@ -49,24 +56,46 @@ public class NotificaAdapter extends RecyclerView.Adapter<NotificaAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        holder.Txt.setText("Si aggiudica l'asta "+notifiche.get(position).getCompratore());
+        final String[] nomeAsta = new String[1];
 
-        holder.astaTxt.setText("Asta: "+notifiche.get(position).getAsta());
+        service = RetrofitClient.getInstance().create(ApiService.class);
 
-        holder.immagineView.setImageResource(R.drawable.notifiche);
+        service.infoAsta(String.valueOf(notifiche.get(position).getAsta())).enqueue(new Callback<AstaInglese>() {
+            @Override
+            public void onResponse(Call<AstaInglese> call, Response<AstaInglese> response) {
 
-        holder.parent.setOnClickListener(v -> {
+                nomeAsta[0] = response.body().getNome();
 
-                Intent intent = new Intent(context, InfoAstaActivity.class);
-                intent.putExtra("id", String.valueOf(notifiche.get(position).getAsta()) );
-                intent.putExtra("email", email);
-                intent.putExtra("tipo", tipo);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                if (notifiche.get(position).getCompratore().equals("asta fallita")){
+                    holder.nomeTxt.setText("Asta fallita");
+                    holder.immagineView.setImageResource(R.drawable.notifiche2);
+                } else {
+                    holder.Txt.setText("Si aggiudica l'asta " + notifiche.get(position).getCompratore());
+                    holder.immagineView.setImageResource(R.drawable.notifiche);
+                }
 
+                holder.astaTxt.setText("Asta: "+nomeAsta[0]);
+                
+                holder.parent.setOnClickListener(v -> {
+
+                    Intent intent = new Intent(context, InfoAstaActivity.class);
+                    intent.putExtra("id", String.valueOf(notifiche.get(position).getAsta()) );
+                    intent.putExtra("email", email);
+                    intent.putExtra("tipo", tipo);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+
+                });
+
+            }
+
+            @Override
+            public void onFailure(Call<AstaInglese> call, Throwable t) {}
         });
+
+
 
 
 
@@ -96,6 +125,7 @@ public class NotificaAdapter extends RecyclerView.Adapter<NotificaAdapter.ViewHo
             nomeTxt = itemView.findViewById(R.id.nomeTxt);
             Txt = itemView.findViewById(R.id.Txt);
             astaTxt = itemView.findViewById(R.id.astaTxt);
+
 
         }
     }

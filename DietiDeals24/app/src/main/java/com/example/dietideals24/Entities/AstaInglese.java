@@ -14,6 +14,7 @@ public class AstaInglese implements Serializable {
     private Integer intervalloDiTempo;
     private Integer sogliaDiRialzo;
     private Integer ultimaOfferta;
+    private String scaduta;
 
     public String getDescrizione() {
         return descrizione;
@@ -93,5 +94,13 @@ public class AstaInglese implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getScaduta() {
+        return scaduta;
+    }
+
+    public void setScaduta(String scaduta) {
+        this.scaduta = scaduta;
     }
 }

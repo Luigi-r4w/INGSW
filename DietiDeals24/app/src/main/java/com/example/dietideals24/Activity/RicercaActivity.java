@@ -24,7 +24,7 @@ public class RicercaActivity extends AppCompatActivity {
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.ricerca_avanzata);
+        this.setContentView(R.layout.ricerca_avanzata_scene);
 
         tipo = getIntent().getSerializableExtra("tipo").toString();
         email = getIntent().getSerializableExtra("email").toString();

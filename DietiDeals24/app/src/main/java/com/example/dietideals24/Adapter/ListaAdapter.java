@@ -60,7 +60,8 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.ViewHolder>{
 
         holder.utente.setText(aste.get(position).getUtente());
 
-        holder.immagineView.setImageBitmap(decodeBase64ToBitmap(aste.get(position).getFoto()));
+        if(!aste.get(position).getFoto().equals("Error"))
+            holder.immagineView.setImageBitmap(decodeBase64ToBitmap(aste.get(position).getFoto()));
 
         holder.parent.setOnClickListener(v -> {
 

@@ -69,4 +69,17 @@ public class OffertaDAO {
         return res;
     }
 
+    public String compratoreOfferta(Integer id)throws Exception {
+        Connection con = null;
+        String sql = "select utente from offerta where id = ?";
+        con = dbConnection.getConnection();
+        PreparedStatement p1 = con.prepareStatement(sql);
+        p1.setInt(1, id);
+        ResultSet rs = p1.executeQuery();
+        rs.next();
+        String res = rs.getString(1);
+        con.close();
+        rs.close();
+        return res;
+    }
 }
