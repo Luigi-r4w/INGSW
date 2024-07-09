@@ -1,10 +1,10 @@
-package com.backEnd.dto;
+package com.backend.dto;
 
 public class Offerta {
     private Integer id;
     private String utente;
     private Integer asta;
-    private Integer offerta;
+    private Integer valoreOfferta;
 
     public Integer getId() {
         return id;
@@ -30,18 +30,18 @@ public class Offerta {
         this.asta = asta;
     }
 
-    public Integer getOfferta() {
-        return offerta;
+    public Integer getValoreOfferta() {
+        return valoreOfferta;
     }
 
-    public void setOfferta(Integer offerta) {
-        this.offerta = offerta;
+    public void setValoreOfferta(Integer offerta) {
+        this.valoreOfferta = offerta;
     }
 
     public Offerta(Integer id, String utente, Integer asta, Integer offerta){
         this.asta=asta;
         this.utente=utente;
         this.id=id;
-        this.offerta=offerta;
+        this.valoreOfferta=offerta;
     }
 }

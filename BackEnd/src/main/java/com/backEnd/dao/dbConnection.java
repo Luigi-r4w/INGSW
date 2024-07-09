@@ -1,4 +1,4 @@
-package com.backEnd.dao;
+package com.backend.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +13,7 @@ public class dbConnection {
         try {
             con = DriverManager.getConnection(jdbcURL, username, password);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
         return con;
     }

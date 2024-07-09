@@ -1,4 +1,4 @@
-package com.backEnd.dto;
+package com.backend.dto;
 
 public class AstaInglese {
     private Integer id;
@@ -85,6 +85,24 @@ public class AstaInglese {
         this.foto = foto;
     }
 
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getScaduta() {
+        return scaduta;
+    }
+
+    public void setScaduta(Integer scaduta) {
+        this.scaduta = scaduta;
+    }
+
+
     public AstaInglese(Integer id, String nome, String descrizione, String foto, String utente, String categoria, Integer offertaMinima, Integer intervalloDiTempo, Integer sogliaDiRialzo, Integer ultimaOfferta, Integer scaduta){
         this.id=id;
         this.nome=nome;
@@ -105,21 +123,5 @@ public class AstaInglese {
         }
         this.ultimaOfferta=ultimaOfferta;
         this.scaduta=scaduta;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getScaduta() {
-        return scaduta;
-    }
-
-    public void setScaduta(Integer scaduta) {
-        this.scaduta = scaduta;
     }
 }

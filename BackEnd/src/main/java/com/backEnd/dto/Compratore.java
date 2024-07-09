@@ -1,4 +1,4 @@
-package com.backEnd.dto;
+package com.backend.dto;
 
 public class Compratore {
     private String nome;

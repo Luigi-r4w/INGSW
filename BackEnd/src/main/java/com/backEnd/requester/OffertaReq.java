@@ -1,9 +1,9 @@
-package com.backEnd.requester;
+package com.backend.requester;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.backEnd.dto.Offerta;
-import com.backEnd.dao.OffertaDAO;
+import com.backend.dao.OffertaDAO;
+import com.backend.dto.Offerta;
 
 
 @RestController
@@ -12,22 +12,22 @@ public class OffertaReq {
     OffertaDAO offertaDAO = new OffertaDAO();
 
     @PostMapping("/")
-    public void newOfferta(@RequestBody Offerta offerta) throws Exception {
-        offertaDAO.InserisciOfferta(offerta);
+    public void newOfferta(@RequestBody Offerta offerta) {
+        offertaDAO.inserisciOfferta(offerta);
     }
 
     @GetMapping("/{id}")
-    public  Offerta info(@PathVariable("id") Integer id) throws Exception{
-        return  offertaDAO.MostraOffera(id);
+    public  Offerta info(@PathVariable("id") Integer id) {
+        return  offertaDAO.mostraOffera(id);
     }
 
     @GetMapping("/offerta/{id}")
-    public  Integer valoreOfferta(@PathVariable("id") Integer id) throws Exception{
-        return  offertaDAO.ValoreOfferta(id);
+    public  Integer valoreOfferta(@PathVariable("id") Integer id) {
+        return  offertaDAO.valoreOfferta(id);
     }
 
     @GetMapping("/compratore/{id}")
-    public  String compratoreOfferta(@PathVariable("id") Integer id) throws Exception{
+    public  String compratoreOfferta(@PathVariable("id") Integer id) {
         return  offertaDAO.compratoreOfferta(id);
     }
 }
